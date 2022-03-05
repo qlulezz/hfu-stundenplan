@@ -1,4 +1,3 @@
-import { convert } from "./node_modules/ical2json/index.js";
 const timings = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
 const weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -24,7 +23,7 @@ timings.forEach(time => {
 
 let data;
 
-if (localStorage.getItem("ical-link")) { 
+if (localStorage.getItem("ical-link")) {
     console.log("ICal found:", localStorage.getItem("ical-link"));
     setup(true);
 }
@@ -40,7 +39,7 @@ function setup(hasLocalStorage) {
     } else {
         input = document.getElementById("icalurl").value.trim();
     }
-     
+
     if (!input || input == "" || input.length == 0) {
         return;
     }
@@ -225,4 +224,66 @@ Date.prototype.addDays = function (days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
+}
+
+
+// ICal to JSON parser
+// Source: https://www.npmjs.com/package/ical2json
+var NEW_LINE = /\r\n|\n|\r/;
+var COLON = ":";
+var SPACE = " ";
+function convert(source) {
+    var currentKey = "",
+        currentValue = "",
+        parentObj = {},
+        splitAt;
+
+    var output = {};
+    var lines = source.split(NEW_LINE);
+
+    var currentObj = output;
+    var parents = [];
+
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.charAt(0) === SPACE) {
+            currentObj[currentKey] += line.substr(1);
+        } else {
+            splitAt = line.indexOf(COLON);
+
+            if (splitAt < 0) {
+                continue;
+            }
+
+            currentKey = line.substr(0, splitAt);
+            currentValue = line.substr(splitAt + 1);
+
+            switch (currentKey) {
+                case "BEGIN":
+                    parents.push(parentObj);
+                    parentObj = currentObj;
+                    if (parentObj[currentValue] == null) {
+                        parentObj[currentValue] = [];
+                    }
+                    // Create a new object, store the reference for future uses
+                    currentObj = {};
+                    parentObj[currentValue].push(currentObj);
+                    break;
+                case "END":
+                    currentObj = parentObj;
+                    parentObj = parents.pop();
+                    break;
+                default:
+                    if (currentObj[currentKey]) {
+                        if (!Array.isArray(currentObj[currentKey])) {
+                            currentObj[currentKey] = [currentObj[currentKey]];
+                        }
+                        currentObj[currentKey].push(currentValue);
+                    } else {
+                        currentObj[currentKey] = currentValue;
+                    }
+            }
+        }
+    }
+    return output;
 }
