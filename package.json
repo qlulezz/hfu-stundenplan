@@ -1,0 +1,14 @@
+{
+  "name": "stundenplan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "moment.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ical2json": "^3.0.0"
+  }
+}

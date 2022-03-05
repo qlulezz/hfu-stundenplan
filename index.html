@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://stundenplan.hs-furtwangen.de/splan/mobile/pictures/table_heatmap.png" type="image/x-icon">
+    <title>Stundenpläne HFU</title>
+    <script src="./moment.js" defer></script>
+    <script src="./script.js" type="module" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="setup">
+        <div>
+            <h1>Setup</h1><br>
+            <p>Um den Stundenplan einzurichten, wähle auf</p>
+            <p><a href="https://stundenplan.hs-furtwangen.de/" target="_blank">stundenplan.hs-furtwangen.de</a> eine Konfiguration aus.</p><br>
+            <p>Kopiere dann den ICal-Link mit Rechtsklick -> 'Link-Addresse kopieren' und füge ihn in dieses Feld ein:</p>
+            <input type="url" name="url" id="icalurl" placeholder="ICal-Link">
+            <small>Alle Daten für den Kalender sind über diesen Link erreichbar.</small>
+            <small>Mehr Informationen zu ICal <a href="http://www.progotec.de/site/splandok/iCal-Anbindung">hier</a>.</small>
+            <small>Das Setup ist einmalig, der Link wird für die Zukunft im Browser abgespeichert. Um das Setup zurückzusetzen, auf den Link oben rechts klicken.</small><br>
+            <input type="submit" class="btn" id="endsetup" value="Setup abschließen">
+        </div>
+        <div>
+            <img src="./HowTo.png" alt="HowTo">
+        </div>
+    </div>
+    <div id="timetable">
+        <div class="headings">
+            <h2>Stundenplan</h2>
+            <div class="date-selector">
+                <i class="fas fa-angle-left" id="pageLast"></i>
+                <h3 id="selector-text">14.03.2022 - 18.03.2022</h3>
+                <i class="fas fa-angle-right" id="pageNext"></i>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <th></th>
+                <th class="day">Montag</th>
+                <th class="day">Dienstag</th>
+                <th class="day">Mittwoch</th>
+                <th class="day">Donnerstag</th>
+                <th class="day">Freitag</th>
+            </thead>
+            <tbody id="tablecontent">
+                <div id="grid-dates"></div>
+            </tbody>
+        </table>
+    </div>
+    <p id="reset">Setup zurücksetzen</p>
+</body>
+
+</html>

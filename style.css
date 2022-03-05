@@ -1,0 +1,266 @@
+:root {
+    --clr-bg: hsl(0, 0%, 7%);
+    --clr-fg: #fff;
+    --clr-primary: #26ED90;
+    --clr-primary-dark: #219E64;
+    --clr-complementary: #ed2683;
+    --clr-analogous-1: #26ed2d;
+    --clr-analogous-2: #26e6ed;
+    --clr-triadic-1: #2683ed;
+    --clr-triadic-2: #9026ed;
+    --clr-00dp: hsl(0, 0%, 7%);
+    --clr-01dp: hsl(0, 0%, 11%);
+    --clr-02dp: hsl(0, 0%, 13%);
+    --clr-03dp: hsl(0, 0%, 14%);
+    --clr-04dp: hsl(0, 0%, 15%);
+    --clr-06dp: hsl(0, 0%, 17%);
+    --clr-08dp: hsl(0, 0%, 18%);
+    --clr-12dp: hsl(0, 0%, 20%);
+    --clr-16dp: hsl(0, 0%, 21%);
+    --clr-24dp: hsl(0, 0%, 22%);
+    --clr-bg-transparent: hsla(0, 0%, 12%, 90%);
+    --clr-bg-transparent2: rgba(0, 0, 0, 0.2);
+}
+
+/* CSS Boilerplate https://www.joshwcomeau.com/css/custom-css-reset/*/ 
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+#root, #__next {
+    isolation: isolate;
+}
+
+/* CSS */ 
+
+body {
+    color: var(--clr-fg);
+    background-color: var(--clr-bg);
+    font-family: 'Noto Sans', sans-serif;
+}
+
+a {   
+    color: #2683ed;   
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#setup {
+    width: 1280px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+#setup div {
+    margin: 3rem;
+}
+
+#setup input, #setup .btn {
+    background: var(--clr-02dp);
+    border: none;
+    border-radius: 10px;
+    color: var(--clr-fg);
+    padding: 5px 10px;
+}
+
+#setup input {
+    width: 100%;
+    margin: 2rem 0;
+}
+
+#setup .btn {
+    width: fit-content;
+    cursor: pointer;
+}
+
+#setup .btn:hover {
+    background: var(--clr-06dp);
+}
+
+#setup img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.headings, .date-selector {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.headings {
+    justify-content: space-between;
+    padding: 1rem 2rem;
+}
+
+.headings i {
+    font-size: 1.6em;
+    cursor: pointer;
+}
+
+.headings i:hover {
+    transform: scale(1.5);
+}
+
+#timetable {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+table {
+    width: 1280px;
+    border-collapse: collapse;
+    border-style: hidden;
+    border-radius: 20px;
+    box-shadow: 0 0 10px black;
+}
+
+th, td {
+    text-align: center;
+}
+
+th {
+    padding: 6px 0;
+}
+
+th:nth-child(1) {
+    width: 70px;
+}
+
+td {
+    padding: 12px;
+    width: min-width;
+}
+
+td:nth-child(1) {
+    text-align: left;
+}
+
+tr {
+    border-bottom: 2px solid var(--clr-01dp);
+}
+
+.day {
+    width: 200px;
+}
+
+#tablecontent {
+    position: relative;
+}
+
+#grid-dates {
+    position: absolute;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    top: 105px;
+    left: 83.7px;
+    grid-template-columns: repeat(5, 239.25px);
+    grid-template-rows: repeat(52, 12.5px);
+}
+
+.grid-item {
+    background-color: var(--clr-triadic-2);
+    color: white;
+    border-radius: 10px;
+    padding: .3em .7em;
+    margin: 1px;
+    font-size: .7em;
+    overflow: hidden;
+    height: 100%;
+}
+
+.grid-item:hover {
+    transform: scale(1.2);
+    overflow: auto;
+    z-index: 2;
+    padding: .5em;
+    height: 150px;
+}
+
+.big {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.loc {
+    text-align: right;
+}
+
+.datetime {
+    display: flex;
+    justify-content: space-between;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.moday {
+    grid-column-end: 2;
+}
+.tuesday {
+    grid-column-end: 3;
+}
+.wednesday {
+    grid-column-end: 4;
+}
+.thursday {
+    grid-column-end: 5;
+}
+.friday {
+    grid-column-end: 6;
+}
+
+#reset {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+#reset:hover {
+    text-decoration: underline;
+}
