@@ -67,10 +67,15 @@ async function startProcess(_url) {
 }
 
 // Transform ICAL data to JSON and extract important data
+let studiengang = "";
 async function getData(_url) {
     let icalRaw = await (await fetch(_url)).text();
     let icalJSON = convert(icalRaw);
     data = icalJSON.VCALENDAR[0].VEVENT;
+
+    // Set Header
+    studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2]
+    document.getElementById("header").innerHTML = `Stundenplan - ${studiengang}`;
 
     // Fix fucked obj names
     data.forEach(obj => {
@@ -118,7 +123,7 @@ function buildHTML(content) {
     let desc = content.desc.split("\\n");
     let prof = "";
     desc.forEach(item => {
-        if (!item.includes("OMB") && !item.includes(course)) {
+        if (!item.includes("OMB") && !item.includes(course) && !item.includes(studiengang)) {
             prof += item + "<br>";
         }
     })
@@ -153,6 +158,14 @@ function pageLast() {
     dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
     buildData(startWeek, endWeek);
 }
+
+/*  TODO:
+        - Optimieren für Mobile
+        - Farben individuell einstellbar
+        - Gleichzeitig laufende Veranstaltungen zeigen
+        - Mehrere Studiengänge im gleichen Stundenplan
+        - Feiertage?
+*/
 
 // Helper Functions
 
@@ -225,7 +238,6 @@ Date.prototype.addDays = function (days) {
     date.setDate(date.getDate() + days);
     return date;
 }
-
 
 // ICal to JSON parser
 // Source: https://www.npmjs.com/package/ical2json
