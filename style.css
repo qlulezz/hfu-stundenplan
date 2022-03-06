@@ -84,7 +84,7 @@ a:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 60% 40%;
 }
 
 #setup div {
@@ -114,7 +114,6 @@ a:hover {
 }
 
 #setup img {
-    width: 100%;
     border-radius: 10px;
 }
 
