@@ -10,8 +10,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="https://stundenplan.hs-furtwangen.de/splan/mobile/pictures/table_heatmap.png" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
     <title>Stundenpläne HFU</title>
+    <meta property="og:title" content="HFU Stundenplan" />
+    <meta property="og:site_name" content="qlulezz" />
+    <meta property="og:description" content="HFU Stundenplan, aber er sieht schöner aus." />
+    <meta property="og:image" content="/img/og-image.png" />
+    <meta name="theme-color" content="#26ED90" />
+    <meta name="twitter:card" content="summary_large_image" />
     <script src="./moment.js" defer></script>
     <script src="./script.js" type="module" defer></script>
     <link rel="stylesheet" href="style.css">
@@ -22,12 +36,16 @@
         <div>
             <h1>Setup</h1><br>
             <p>Um den Stundenplan einzurichten, wähle auf</p>
-            <p><a href="https://stundenplan.hs-furtwangen.de/" target="_blank">stundenplan.hs-furtwangen.de</a> eine Konfiguration aus.</p><br>
-            <p>Kopiere dann den ICal-Link mit Rechtsklick -> 'Link-Addresse kopieren' und füge ihn in dieses Feld ein:</p>
+            <p><a href="https://stundenplan.hs-furtwangen.de/" target="_blank">stundenplan.hs-furtwangen.de</a> eine
+                Konfiguration aus.</p><br>
+            <p>Kopiere dann den ICal-Link mit Rechtsklick -> 'Link-Addresse kopieren' und füge ihn in dieses Feld ein:
+            </p>
             <input type="url" name="url" id="icalurl" placeholder="ICal-Link">
             <small>Alle Daten für den Kalender sind über diesen Link erreichbar.</small>
-            <small>Mehr Informationen zu ICal <a href="http://www.progotec.de/site/splandok/iCal-Anbindung">hier</a>.</small>
-            <small>Das Setup ist einmalig, der Link wird für die Zukunft im Browser abgespeichert. Um das Setup zurückzusetzen, auf den Link oben rechts klicken.</small><br>
+            <small>Mehr Informationen zu ICal <a
+                    href="http://www.progotec.de/site/splandok/iCal-Anbindung">hier</a>.</small>
+            <small>Das Setup ist einmalig, der Link wird für die Zukunft im Browser abgespeichert. Um das Setup
+                zurückzusetzen, auf den Link oben rechts klicken.</small><br>
             <input type="submit" class="btn" id="endsetup" value="Setup abschließen">
         </div>
         <div>
