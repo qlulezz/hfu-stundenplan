@@ -2,7 +2,6 @@ const timings = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", 
 const weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 let setupdiv = document.getElementById("setup");
-let reset = document.getElementById("reset");
 let timetable = document.getElementById("timetable");
 let tableContent = document.getElementById("tablecontent");
 let grid = document.getElementById("grid-dates");
@@ -14,7 +13,7 @@ let col = "";
 document.getElementById("pageLast").addEventListener("click", pageLast);
 document.getElementById("pageNext").addEventListener("click", pageNext);
 document.getElementById("endsetup").addEventListener("click", setupNow);
-reset.addEventListener("click", resetSetup)
+document.getElementById("reset").addEventListener("click", resetSetup)
 
 // Setup time tables
 timings.forEach(time => {
