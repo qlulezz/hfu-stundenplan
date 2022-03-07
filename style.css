@@ -279,7 +279,7 @@ tr {
 }
 
 #about-section {
-    width: 700px;
+    width: 1200px;
     border-radius: 20px;
     box-shadow: 0 0 10px black;
     position: absolute;
@@ -287,7 +287,7 @@ tr {
     left: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: 50% 50%;
 }
 
 #about-section p {
@@ -299,6 +299,10 @@ tr {
 }
 
 #about-section img {
+    border-radius: 10px;
+}
+
+#about-section #last img {
     height: 3ch;
 }
 

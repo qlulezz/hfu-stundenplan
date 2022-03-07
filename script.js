@@ -1,5 +1,7 @@
-const timings = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
+const timings = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
 const weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+const apiUrl = "https://hfu.qlulezz.de/api/"
 
 let setupdiv = document.getElementById("setup");
 let timetable = document.getElementById("timetable");
@@ -65,10 +67,11 @@ async function startProcess(_url) {
     buildData(startWeek, endWeek);
 }
 
-// Transform ICAL data to JSON and extract important data
+// Fetch JSON Data from API
 let studiengang = "";
 async function getData(_url) {
-    data = await (await fetch(_url)).text();
+    let encodedURL = encodeURIComponent(_url);
+    data = await (await fetch(apiUrl + encodedURL)).json();
 
     // Set Header
     studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2]
@@ -99,7 +102,7 @@ function buildHTML(content) {
     let diff = content.end - content.start;
     let length = diff / 900000;
 
-    let start = (content.start.getHours() * 4 + content.start.getMinutes() / 15) - 35;
+    let start = (content.start.getHours() * 4 + content.start.getMinutes() / 15) - 31;
     let end = start + length;
 
     let dateStart = formatDate(content.start).split(", ");
@@ -118,6 +121,7 @@ function buildHTML(content) {
     })
     prof = prof.substring(0, prof.length - 4).replaceAll("\\", "")
 
+    // Funfact: If you write React-like code, you eventually need to actually use it
     grid.innerHTML += `
     <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; filter: hue-rotate(${getColor(content.loc)}deg)">
         <div class="datetime">
