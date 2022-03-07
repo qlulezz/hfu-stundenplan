@@ -68,21 +68,11 @@ async function startProcess(_url) {
 // Transform ICAL data to JSON and extract important data
 let studiengang = "";
 async function getData(_url) {
-    let icalRaw = await (await fetch(_url)).text();
-    let icalJSON = convert(icalRaw);
-    data = icalJSON.VCALENDAR[0].VEVENT;
+    data = await (await fetch(_url)).text();
 
     // Set Header
     studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2]
     document.getElementById("header").innerHTML = `Stundenplan - ${studiengang}`;
-
-    // Fix fucked obj names
-    data.forEach(obj => {
-        obj.DTSTART = obj["DTSTART;TZID=Europe/Berlin"];
-        obj.DTEND = obj["DTEND;TZID=Europe/Berlin"];
-        delete obj["DTSTART;TZID=Europe/Berlin"];
-        delete obj["DTEND;TZID=Europe/Berlin"];
-    })
 }
 
 // Check for validity of week and build object with information
@@ -150,6 +140,7 @@ function pageNext() {
     dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
     buildData(startWeek, endWeek);
 }
+
 function pageLast() {
     weeks--;
     let startWeek = moment().startOf('week').toDate().addDays(weeks * 7);
@@ -157,14 +148,6 @@ function pageLast() {
     dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
     buildData(startWeek, endWeek);
 }
-
-/*  TODO:
-        - Optimieren für Mobile
-        - Farben individuell einstellbar
-        - Gleichzeitig laufende Veranstaltungen zeigen
-        - Mehrere Studiengänge im gleichen Stundenplan
-        - Feiertage?
-*/
 
 // Helper Functions
 
@@ -179,7 +162,6 @@ function getColor(name) {
 }
 
 // Format Date
-
 function formatDateIcs(date) {
     return parseIcsDate(date).addHours(-1).toLocaleDateString("de-DE", {
         year: "numeric",
@@ -215,6 +197,7 @@ function parseIcsDate(icsDate) {
     return new Date(Date.UTC(year, month - 1, day, hour, minute, second));
 }
 
+// Check of date is between two dates
 function dateCheck(from, to, check) {
     var fDate, lDate, cDate;
     fDate = Date.parse(from);
@@ -227,74 +210,15 @@ function dateCheck(from, to, check) {
     return false;
 }
 
+// Add hours to date
 Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
     return this;
 }
 
+// Add days to date
 Date.prototype.addDays = function (days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
-}
-
-// ICal to JSON parser
-// Source: https://www.npmjs.com/package/ical2json
-var NEW_LINE = /\r\n|\n|\r/;
-var COLON = ":";
-var SPACE = " ";
-function convert(source) {
-    var currentKey = "",
-        currentValue = "",
-        parentObj = {},
-        splitAt;
-
-    var output = {};
-    var lines = source.split(NEW_LINE);
-
-    var currentObj = output;
-    var parents = [];
-
-    for (var i = 0; i < lines.length; i++) {
-        var line = lines[i];
-        if (line.charAt(0) === SPACE) {
-            currentObj[currentKey] += line.substr(1);
-        } else {
-            splitAt = line.indexOf(COLON);
-
-            if (splitAt < 0) {
-                continue;
-            }
-
-            currentKey = line.substr(0, splitAt);
-            currentValue = line.substr(splitAt + 1);
-
-            switch (currentKey) {
-                case "BEGIN":
-                    parents.push(parentObj);
-                    parentObj = currentObj;
-                    if (parentObj[currentValue] == null) {
-                        parentObj[currentValue] = [];
-                    }
-                    // Create a new object, store the reference for future uses
-                    currentObj = {};
-                    parentObj[currentValue].push(currentObj);
-                    break;
-                case "END":
-                    currentObj = parentObj;
-                    parentObj = parents.pop();
-                    break;
-                default:
-                    if (currentObj[currentKey]) {
-                        if (!Array.isArray(currentObj[currentKey])) {
-                            currentObj[currentKey] = [currentObj[currentKey]];
-                        }
-                        currentObj[currentKey].push(currentValue);
-                    } else {
-                        currentObj[currentKey] = currentValue;
-                    }
-            }
-        }
-    }
-    return output;
 }
