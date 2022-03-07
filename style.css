@@ -189,12 +189,10 @@ tr {
 #grid-dates {
     position: absolute;
     display: grid;
-    width: 100%;
-    height: 100%;
     top: 105px;
     left: 83.7px;
     grid-template-columns: repeat(5, 239.25px);
-    grid-template-rows: repeat(52, 12.5px);
+    grid-template-rows: repeat(56, 12.5px);
 }
 
 .grid-item {
@@ -309,4 +307,44 @@ tr {
 #about-section #last {
     margin-top: 3ch;
     display: flex;
+}
+
+@media (max-width: 680px) {
+    #setup {
+        width: 90%;
+        position: relative;
+        margin-top: 10rem;
+        grid-template-columns: 100%;
+        grid-template-rows: 50% 50%;
+        gap: 1.5rem;
+        height: fit-content;
+    }
+    
+    #setup div {
+        margin: 1rem;
+    }
+    
+    #setup input {
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    #about-section {
+        width: 100%;
+        position: relative;
+        margin-top: 20rem;
+        grid-template-columns: 100%;
+        grid-template-rows: 50% 50%;
+        gap: 4rem;
+        overflow: hidden;
+        height: fit-content;
+    }
+
+    #about-section div {
+        margin: 2rem 2rem;
+    }
+
+    #about-section #last img {
+        display: none;
+    }
 }
