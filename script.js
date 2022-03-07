@@ -8,8 +8,7 @@ let timetable = document.getElementById("timetable");
 let tableContent = document.getElementById("tablecontent");
 let grid = document.getElementById("grid-dates");
 let dateSelector = document.getElementById("selector-text");
-let temp = "";
-let col = "";
+let courseArr = [];
 
 // Add listeners for date changer
 document.getElementById("pageLast").addEventListener("click", pageLast);
@@ -109,7 +108,7 @@ function buildHTML(content) {
     let dateEnd = formatDate(content.end).split(", ");
     let time = `${dateStart[1]} - ${dateEnd[1]}`
     let date = `${dateStart[0].split(".")[0]}.${dateStart[0].split(".")[1]}`
-    let course = content.desc.split("\\")[0].split("(")[0];
+    let course = content.desc.split("\\")[0].split("(")[0].trim();
     let loc = content.loc.replaceAll("\\", "");
 
     let desc = content.desc.split("\\n");
@@ -121,9 +120,27 @@ function buildHTML(content) {
     })
     prof = prof.substring(0, prof.length - 4).replaceAll("\\", "")
 
+    let courseExists = false;
+    let backgroundColor = "";
+    for (var i = 0; i < courseArr.length; i++) {
+        if (courseArr[i].course == course) {
+            courseExists = true;
+            backgroundColor = courseArr[i].color;
+            break;
+        }
+    }
+
+    if (!courseExists) {
+        backgroundColor = getColor();
+        courseArr.push({
+            course: course,
+            color: backgroundColor
+        });
+    }
+
     // Funfact: If you write React-like code, you eventually need to actually use it
     grid.innerHTML += `
-    <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; filter: hue-rotate(${getColor(content.loc)}deg)">
+    <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor})">
         <div class="datetime">
             <p class="big">${date}, ${time}</p>
             <p class="big loc">${loc}</p>
@@ -155,14 +172,11 @@ function pageLast() {
 
 // Helper Functions
 
-// Random color for courses
-function getColor(name) {
-    if (temp == name) {
-        return col;
-    }
-    temp = name;
-    col = Math.floor(Math.random() * 360)
-    return col;
+// Random HSL for course background color
+function getColor() {
+    const hue = Math.floor(Math.random() * 360);
+    const saturation = Math.floor(Math.random() * (100 - 50 + 1) + 50)
+    return `hsl(${hue}, ${saturation}%, 40%);`;
 }
 
 // Format Date
