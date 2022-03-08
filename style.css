@@ -342,13 +342,16 @@ tr {
         margin: 1rem 0;
     }
 
+    #setup img {
+        display: none;
+    }
+
     #about-section {
         width: 100%;
         position: relative;
         margin-top: 20rem;
         grid-template-columns: 100%;
         grid-template-rows: 50% 50%;
-        gap: 4rem;
         overflow: hidden;
         height: fit-content;
     }
