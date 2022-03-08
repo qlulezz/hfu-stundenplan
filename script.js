@@ -143,7 +143,7 @@ function buildHTML(content) {
     <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor})">
         <div class="datetime">
             <p class="big">${date}, ${time}</p>
-            <p class="big loc">${loc}</p>
+            <p class="big loc">${getRoom(loc)}</p>
         </div>
         <div class="line"></div>
         <p>${course}</p><br>
@@ -239,4 +239,13 @@ Date.prototype.addDays = function (days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
+}
+
+// Get Alfa-View room link by name
+function getRoom(name) {
+    if (name.includes("DM")) {
+        let room = "dm" + name.substring(name.indexOf('-') + 1).split(", ")[0];
+        return `<a href="https://rooms.hs-furtwangen.de/rooms/${room}" target="_blank" class="rainbow">${name}</a>`
+    }
+    return name;
 }

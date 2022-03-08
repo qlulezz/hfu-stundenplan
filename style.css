@@ -309,6 +309,19 @@ tr {
     display: flex;
 }
 
+.rainbow {
+    color:lime;
+    animation: rainbow 3s linear infinite forwards;
+}
+
+@keyframes rainbow {
+    from {
+        filter: hue-rotate(0deg);
+    } to {
+        filter: hue-rotate(360deg);
+    }
+}
+
 @media (max-width: 680px) {
     #setup {
         width: 90%;
