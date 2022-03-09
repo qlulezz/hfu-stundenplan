@@ -2,6 +2,7 @@ const timings = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", 
 const weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 const apiUrl = "https://hfu.qlulezz.de/api/"
+const holidaysUrl = "https://www.schulferien.org/media/ical/deutschland/feiertage_baden-wuerttemberg_2022.ics?k=9DCd6wSzlU7TLWBdfn1DAjGW3gxLX5JMKLZDfjYwAhU5ti70T4yycK3JOXjPDwvhMlnQ9iXmgK7RrlJu4F_7LsEXMxYZjkcs57ftachDPHs";
 
 let setupdiv = document.getElementById("setup");
 let timetable = document.getElementById("timetable");
@@ -21,6 +22,7 @@ timings.forEach(time => {
 });
 
 let data;
+let holidays;
 
 if (localStorage.getItem("ical-link")) {
     console.log("ICal found:", localStorage.getItem("ical-link"));
@@ -65,7 +67,7 @@ async function startProcess(_url) {
 function setColors() {
     if (localStorage.getItem("colorArr") != null) {
         colorArr = JSON.parse(localStorage.getItem("colorArr"));
-        return; 
+        return;
     }
 
     for (let i = 0; i < data.length; i++) {
@@ -84,6 +86,10 @@ function setColors() {
             })
         }
     }
+    colorArr.push({
+        course: "Ferientage",
+        color: getColor()
+    })
     localStorage.setItem("colorArr", JSON.stringify(colorArr));
 }
 
@@ -92,6 +98,9 @@ let studiengang = "";
 async function getData(_url) {
     let encodedURL = encodeURIComponent(_url);
     data = await (await fetch(apiUrl + encodedURL)).json();
+
+    let encodedURLHolidays = encodeURIComponent(holidaysUrl);
+    holidays = await (await fetch(apiUrl + encodedURLHolidays)).json();
 
     // Set Header
     studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2]
@@ -113,54 +122,90 @@ function buildData(_start, _end) {
             loc: data[i].LOCATION,
             sum: data[i].SUMMARY
         }
-        buildHTML(output);
+        buildHTML("entry", output);
+    }
+    for (let i = 0; i < holidays.length; i++) {
+        if (!dateCheck(_start, _end, parseIcsDate(holidays[i].DTSTART))) { continue; }
+
+        let output = {
+            start: parseIcsDate(holidays[i].DTSTART),
+            sum: holidays[i].SUMMARY
+        }
+        buildHTML("holiday", output)
     }
 }
 
 // Format information and build HTML content
-function buildHTML(content) {
-    let diff = content.end - content.start;
-    let length = diff / 900000;
+function buildHTML(type, content) {
+    switch (type) {
+        case ("entry"): {
+            let diff = content.end - content.start;
+            let length = diff / 900000;
 
-    let start = (content.start.getHours() * 4 + content.start.getMinutes() / 15) - 31;
-    let end = start + length;
+            let start = (content.start.getHours() * 4 + content.start.getMinutes() / 15) - 31;
+            let end = start + length;
 
-    let dateStart = formatDate(content.start).split(", ");
-    let dateEnd = formatDate(content.end).split(", ");
-    let time = `${dateStart[1]} - ${dateEnd[1]}`
-    let date = `${dateStart[0].split(".")[0]}.${dateStart[0].split(".")[1]}`
-    let course = content.desc.split("\\")[0].split("(")[0].trim();
-    let loc = content.loc.replaceAll("\\", "");
+            let dateStart = formatDate(content.start).split(", ");
+            let dateEnd = formatDate(content.end).split(", ");
+            let time = `${dateStart[1]} - ${dateEnd[1]}`
+            let date = `${dateStart[0].split(".")[0]}.${dateStart[0].split(".")[1]}`
+            let course = content.desc.split("\\")[0].split("(")[0].trim();
+            let loc = content.loc.replaceAll("\\", "");
 
-    let desc = content.desc.split("\\n");
-    let prof = "";
-    desc.forEach(item => {
-        if (!item.includes("OMB") && !item.includes(course) && !item.includes(studiengang)) {
-            prof += item + "<br>";
+            let desc = content.desc.split("\\n");
+            let prof = "";
+            desc.forEach(item => {
+                if (!item.includes("OMB") && !item.includes(course) && !item.includes(studiengang)) {
+                    prof += item + "<br>";
+                }
+            })
+            prof = prof.substring(0, prof.length - 4).replaceAll("\\", "")
+
+            let backgroundColor = "";
+            for (var i = 0; i < colorArr.length; i++) {
+                if (colorArr[i].course == course) {
+                    backgroundColor = colorArr[i].color;
+                    break;
+                }
+            }
+
+            // Funfact: If you write React-like code, you eventually need to actually use it
+            grid.innerHTML += `
+            <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor};)">
+                <div class="datetime">
+                    <p class="big">${date}, ${time}</p>
+                    <p class="big loc">${getRoom(loc)}</p>
+                </div>
+                <div class="line"></div>
+                <p>${course}</p><br>
+                <p>${prof}</p>
+            </div>
+            `;
+            break;
         }
-    })
-    prof = prof.substring(0, prof.length - 4).replaceAll("\\", "")
+        case ("holiday"): {
+            let dateStart = formatDate(content.start).split(", ");
+            let date = `${dateStart[0]}`
+            let name = content.sum;
 
-    let backgroundColor = "";
-    for (var i = 0; i < colorArr.length; i++) {
-        if (colorArr[i].course == course) {
-            backgroundColor = colorArr[i].color;
+            let backgroundColor = "";
+            for (var i = 0; i < colorArr.length; i++) {
+                if (colorArr[i].course == "Ferientage") {
+                    backgroundColor = colorArr[i].color;
+                    break;
+                }
+            }
+
+            grid.innerHTML += `
+            <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: 1; grid-row-end: 57; background: ${backgroundColor};)">
+                <div class="datetime"><p class="big">${date}</p></div>
+                <div class="line"></div>
+                <p>${name}</p>
+            </div>
+            `;
             break;
         }
     }
-
-    // Funfact: If you write React-like code, you eventually need to actually use it
-    grid.innerHTML += `
-    <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor};)">
-        <div class="datetime">
-            <p class="big">${date}, ${time}</p>
-            <p class="big loc">${getRoom(loc)}</p>
-        </div>
-        <div class="line"></div>
-        <p>${course}</p><br>
-        <p>${prof}</p>
-    </div>
-    `;
 }
 
 // Week selector
@@ -212,9 +257,13 @@ function formatDate(date) {
 }
 
 function parseIcsDate(icsDate) {
-    if (!/^[0-9]{8}T[0-9]{6}$/.test(icsDate))
-        throw new Error("ICS Date is wrongly formatted: " + icsDate);
+    if (!/^[0-9]{8}T[0-9]{6}$/.test(icsDate)) {
+        var year = icsDate.substr(0, 4);
+        var month = icsDate.substr(4, 2);
+        var day = icsDate.substr(6, 2);
 
+        return new Date(Date.UTC(year, month - 1, day));
+    }
     var year = icsDate.substr(0, 4);
     var month = icsDate.substr(4, 2);
     var day = icsDate.substr(6, 2);

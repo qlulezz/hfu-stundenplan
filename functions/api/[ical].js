@@ -67,10 +67,12 @@ async function getData(_url) {
 
     // Fix fucked obj names
     jsonData.forEach(obj => {
-        obj.DTSTART = obj["DTSTART;TZID=Europe/Berlin"];
-        obj.DTEND = obj["DTEND;TZID=Europe/Berlin"];
+        obj.DTSTART = obj["DTSTART;TZID=Europe/Berlin"] || obj["DTSTART;VALUE=DATE"];
+        obj.DTEND = obj["DTEND;TZID=Europe/Berlin"] || obj["DTSTART;VALUE=DATE"];
         delete obj["DTSTART;TZID=Europe/Berlin"];
         delete obj["DTEND;TZID=Europe/Berlin"];
+        delete obj["DTSTART;VALUE=DATE"];
+        delete obj["DTEND;VALUE=DATE"];
     })
 }
 
