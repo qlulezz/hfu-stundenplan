@@ -91,12 +91,18 @@ a:hover {
     margin: 3rem;
 }
 
-#setup input, #setup .btn {
+.urlinput, .btn {
     background: var(--clr-02dp);
     border: none;
     border-radius: 10px;
     color: var(--clr-fg);
     padding: 5px 10px;
+    width: fit-content;
+}
+
+.btn:hover {
+    background: var(--clr-06dp);
+    cursor: pointer;
 }
 
 #setup input {
@@ -106,11 +112,6 @@ a:hover {
 
 #setup .btn {
     width: fit-content;
-    cursor: pointer;
-}
-
-#setup .btn:hover {
-    background: var(--clr-06dp);
 }
 
 #setup img {
@@ -250,33 +251,28 @@ tr {
     grid-column-end: 6;
 }
 
-#reset {
+.icon {
     position: absolute;
     top: 0;
-    right: 0;
-    padding: 1rem;
-    cursor: pointer;
-}
-
-#reset:hover {
-    text-decoration: underline;
-}
-
-#about {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: .2rem .5rem;
+    margin: .2rem .5rem;
     cursor: pointer;
     font-size: 1.5em;
     color: var(--clr-fg);
 }
 
-#about:hover {
+#about {
+    left: 0;
+}
+
+#setting {
+    right: 0;
+}
+
+.icon:hover {
     transform: scale(1.3);
 }
 
-#about-section {
+#about-section, #settings {
     width: 1200px;
     border-radius: 20px;
     box-shadow: 0 0 10px black;
@@ -292,7 +288,7 @@ tr {
     margin: 2ch 0;
 }
 
-#about-section div {
+#about-section div, #settings > div {
     margin: 2rem 3rem;
 }
 
@@ -307,6 +303,51 @@ tr {
 #about-section #last {
     margin-top: 3ch;
     display: flex;
+}
+
+#settings {
+    height: fit-content;
+}
+
+#settings .urlinput {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+#settings h1 {
+    margin-bottom: 1rem;
+}
+
+#colors {
+    display: grid;
+    gap: 5px;
+}
+
+.colorwrapper:hover {
+    transform: scale(1.35)
+}
+
+.color {
+    display: flex;
+    justify-content: space-between;
+}
+
+input[type="color"] {
+	opacity: 0;
+	display: block;
+	width: 32px;
+	height: 32px;
+	border: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+	border: none;
 }
 
 .rainbow {

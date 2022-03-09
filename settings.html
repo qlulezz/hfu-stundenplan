@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/img/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <title>Stundenpläne HFU</title>
+    <meta property="og:title" content="HFU Stundenplan" />
+    <meta property="og:site_name" content="qlulezz" />
+    <meta property="og:description" content="HFU Stundenplan, aber er sieht schöner aus." />
+    <meta property="og:image" content="/img/og-image.png" />
+    <meta name="theme-color" content="#26ED90" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="style.css">
+    <script src="settings.js" defer></script>
+</head>
+
+<body>
+    <div id="settings">
+        <div>
+            <h1>Einstellungen</h1>
+            <h3>ICal-Link:</h3>
+            <input type="url" name="url" id="icalurl" class="urlinput" placeholder="ICal-Link" readonly>
+            <input type="submit" class="btn" id="reset" value="Setup zurücksetzen">
+        </div>
+        <div>
+            <h1>Farben</h1>
+            <div id="colors"></div>
+        </div>
+    </div>
+    <a class="icon" id="about" href="./index.html"><i class="fas fa-arrow-left"></i></a>
+    <template color-template>
+        <div class="color">
+            <p></p>
+            <div class="colorwrapper">
+                <input type="color" name="colorinput" class="colorinput" value="#26ED90">
+            </div>
+        </div>
+    </template>
+</body>
+
+</html>

@@ -8,13 +8,12 @@ let timetable = document.getElementById("timetable");
 let tableContent = document.getElementById("tablecontent");
 let grid = document.getElementById("grid-dates");
 let dateSelector = document.getElementById("selector-text");
-let courseArr = [];
+let colorArr = [];
 
 // Add listeners for date changer
 document.getElementById("pageLast").addEventListener("click", pageLast);
 document.getElementById("pageNext").addEventListener("click", pageNext);
 document.getElementById("endsetup").addEventListener("click", setupNow);
-document.getElementById("reset").addEventListener("click", resetSetup)
 
 // Setup time tables
 timings.forEach(time => {
@@ -50,20 +49,42 @@ function setup(hasLocalStorage) {
     setupdiv.style.display = "none";
 }
 
-function resetSetup() {
-    localStorage.removeItem("ical-link");
-    location.reload();
-}
-
 // Calculate current week and build based on initial ICAL
 async function startProcess(_url) {
     await getData(_url);
+    setColors();
 
     var startWeek = moment().startOf('week').toDate();
     var endWeek = moment().endOf('week').toDate();
     dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
 
     buildData(startWeek, endWeek);
+}
+
+// Set colors for courses
+function setColors() {
+    if (localStorage.getItem("colorArr") != null) {
+        colorArr = JSON.parse(localStorage.getItem("colorArr"));
+        return; 
+    }
+
+    for (let i = 0; i < data.length; i++) {
+        let course = data[i].DESCRIPTION.split("\\")[0].split("(")[0].trim();
+        let courseExists = false;
+        for (let j = 0; j < colorArr.length; j++) {
+            if (colorArr[j].course == course) {
+                courseExists = true;
+                break;
+            }
+        }
+        if (!courseExists) {
+            colorArr.push({
+                course: course,
+                color: getColor()
+            })
+        }
+    }
+    localStorage.setItem("colorArr", JSON.stringify(colorArr));
 }
 
 // Fetch JSON Data from API
@@ -120,27 +141,17 @@ function buildHTML(content) {
     })
     prof = prof.substring(0, prof.length - 4).replaceAll("\\", "")
 
-    let courseExists = false;
     let backgroundColor = "";
-    for (var i = 0; i < courseArr.length; i++) {
-        if (courseArr[i].course == course) {
-            courseExists = true;
-            backgroundColor = courseArr[i].color;
+    for (var i = 0; i < colorArr.length; i++) {
+        if (colorArr[i].course == course) {
+            backgroundColor = colorArr[i].color;
             break;
         }
     }
 
-    if (!courseExists) {
-        backgroundColor = getColor();
-        courseArr.push({
-            course: course,
-            color: backgroundColor
-        });
-    }
-
     // Funfact: If you write React-like code, you eventually need to actually use it
     grid.innerHTML += `
-    <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor})">
+    <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor};)">
         <div class="datetime">
             <p class="big">${date}, ${time}</p>
             <p class="big loc">${getRoom(loc)}</p>
@@ -176,7 +187,7 @@ function pageLast() {
 function getColor() {
     const hue = Math.floor(Math.random() * 360);
     const saturation = Math.floor(Math.random() * (100 - 50 + 1) + 50)
-    return `hsl(${hue}, ${saturation}%, 40%);`;
+    return `hsl(${hue},${saturation}%,40%)`;
 }
 
 // Format Date
