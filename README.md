@@ -17,12 +17,12 @@ Bug Reports, Feature Requests, Feedback: immer her damit!
 - Speichern der Konfiguration im LocalStorage
 - Direkte Links zu Alfaview Räumen
 - Schnelles Laden aufgrund wenig Code und eigener API
+- Erfassung von Feiertagen
 
 ## Geplante Features:
 - Optimieren für Mobile
 - Gleichzeitig laufende Veranstaltungen zeigen
 - Mehrere Studiengänge im gleichen Stundenplan
-- Feiertage?
 
 Weitere Ideen oder Wünsche können mir auch direkt per Discord ([qlulezz#2946](https://discordapp.com/users/263272950700965888/)) mitgeteilt werden.
 
