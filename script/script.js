@@ -16,6 +16,9 @@ document.getElementById("pageLast").addEventListener("click", pageLast);
 document.getElementById("pageNext").addEventListener("click", pageNext);
 document.getElementById("endsetup").addEventListener("click", setupNow);
 
+// Set custom background if available
+document.documentElement.style.setProperty("--bg-url", `url(${localStorage.getItem("background")})`);
+
 // Setup time tables
 timings.forEach(time => {
     tableContent.innerHTML += `<tr><td>${time}</td></tr>`;
@@ -61,6 +64,16 @@ async function startProcess(_url) {
     dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
 
     buildData(startWeek, endWeek);
+}
+
+// Calculate 15 min slot for time indicator and add minutes if necessary
+function showCurrentTime() {
+    let d = new Date();
+    let timeSlot = Math.round((d.getHours() * 4 + d.getMinutes() / 15) - 27);
+    let addMinutes = Math.round((d.getMinutes() % 15) / 20);
+    if (timeSlot <= 56 && timeSlot >= 1) {
+        grid.innerHTML += `<div id="indicator" class="${weekday[d.getDay()]}" style="grid-row-start: ${timeSlot}; grid-row-end: ${timeSlot}; margin-top: ${addMinutes}px;"></div>`;
+    }
 }
 
 // Set colors for courses
@@ -133,6 +146,7 @@ function buildData(_start, _end) {
         }
         buildHTML("holiday", output)
     }
+    showCurrentTime();
 }
 
 // Format information and build HTML content

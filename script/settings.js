@@ -4,12 +4,39 @@ let colorArr = JSON.parse(localStorage.getItem("colorArr"));
 let template = document.querySelector("[color-template]");
 
 // Reset setup button
-document.getElementById("reset").addEventListener("click", resetSetup)
+document.getElementById("resetSetup").addEventListener("click", resetSetup);
+document.getElementById("resetStyle").addEventListener("click", resetStyle);
+document.getElementById("setBG").addEventListener("click", setBG);
+document.getElementById("resetBG").addEventListener("click", resetBG);
+
+
 document.getElementById("icalurl").value = localStorage.getItem("ical-link");
+document.getElementById("bgurl").value = localStorage.getItem("background");
+document.documentElement.style.setProperty("--bg-url", `url(${localStorage.getItem("background")})`);
+
 function resetSetup() {
     localStorage.removeItem("ical-link");
     localStorage.removeItem("colorArr");
+    localStorage.removeItem("background");
     window.location = "./index.html";
+}
+
+function resetStyle() {
+    localStorage.removeItem("colorArr");
+    localStorage.removeItem("background");
+    window.location = "./index.html";
+}
+
+function setBG() {
+    let input = document.getElementById("bgurl").value;
+    document.documentElement.style.setProperty("--bg-url", `url(${input})`);
+    localStorage.setItem("background", input);
+    window.location.reload();
+}
+
+function resetBG() {
+    localStorage.removeItem("background");
+    window.location.reload();
 }
 
 // Draw colors used for courses

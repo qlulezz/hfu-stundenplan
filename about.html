@@ -30,8 +30,8 @@
 </head>
 
 <body>
-    <div id="about-section">
-        <div>
+    <div class="container" id="about-section">
+        <div id="about-text">
             <h1>About</h1>
             <p>
                 Also, mir war mal wieder langweilig.
@@ -48,24 +48,48 @@
                 Ursprünglich nur für mich selbst gemacht aber ist jetzt auch public.
             </p>
             <p>
-                Bug Reports, Feature Requests, Feedback: <a href="https://discordapp.com/users/263272950700965888/">immer her damit</a>!
+                Bug Reports, Feature Requests, Feedback: <a
+                    href="https://discordapp.com/users/263272950700965888/">immer her damit</a>!
             </p>
-            <p>
-                Für die Zukunft geplante Features:
-            </p>
-            <ul>
-                <li>Optimieren für Mobile</li>
-                <li>Gleichzeitig laufende Veranstaltungen zeigen</li>
-            </ul>
             <p id="last">
-                Bin dann mal das Intranet neu machen <img src="https://i.kym-cdn.com/photos/images/newsfeed/000/925/494/218.png_large" alt="Kappa">
+                Bin dann mal das Intranet neu machen <img
+                    src="https://i.kym-cdn.com/photos/images/newsfeed/000/925/494/218.png_large" alt="Kappa">
             </p>
+            <hr><br>
+            <h3>Changelog</h3>
+            <span id="changelog">
+                <p>18.03.2022:</p>
+                <ul>
+                    <li>Neuer Indikator, der die aktuelle Zeit im Stundenplan anzeigt (sofern der Tag oder die Uhrzeit sichtbar ist)</li>
+                    <li>Neben Farben kann jetzt auch der Hintergrund mit einem Bild ersetzt werden</li>
+                    <li>About, Setup und Einstellungen für Mobile optimiert</li>
+                    <li>Changelog hinzugefügt</li>
+                </ul>
+                <p>09.03.2022:</p>
+                <ul>
+                    <li>Ferientage (BW) werden jetzt im Stundenplan angezeigt (Vorlesungsfreie
+                        Tage dir nur für die HFU gelten werden nicht angezeigt, an solchen Tagen ist der Stundenplan leer)</li>
+                    <li>Bei einem Klick auf das Zahnrad oben rechts erscheint eine neue Seite für Einstellungen</li>
+                    <li>Farben können jetzt individuell pro Veranstaltung angepasst werden</li>
+                </ul>
+                <p>08.03.2022:</p>
+                <ul>
+                    <li>DM Veranstaltungen, die digital stattfinden haben nun einen direkten Link zu dem jeweiligen
+                        Alfaview Raum</li>
+                    <li>Der Button zum Abschließen des Setups ist jetzt nicht mehr hinter dem Bild versteckt</li>
+                </ul>
+                <p>07.03.2022:</p>
+                <ul>
+                    <li>Farben sind jetzt zufällig per Veranstaltung (vorher zufällig per Eintrag)</li>
+                </ul>
+            </span>
         </div>
         <div>
             <h2>HOW IT WORKS</h2>
             <img src="./img/HowItWorks.svg" alt="HowItWorks">
         </div>
     </div>
+    <a class="icon" id="about" href="./index.html"><i class="fas fa-arrow-left"></i></a>
 </body>
 
 </html>

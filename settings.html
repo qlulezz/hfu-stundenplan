@@ -31,15 +31,20 @@
 </head>
 
 <body>
-    <div id="settings">
+    <div class="container" id="settings">
         <div>
             <h1>Einstellungen</h1>
-            <h3>ICal-Link:</h3>
+            <h2 class="new-header">ICal-Link</h2>
             <input type="url" name="url" id="icalurl" class="urlinput" placeholder="ICal-Link" readonly>
-            <input type="submit" class="btn" id="reset" value="Setup zurücksetzen">
+            <button class="btn" id="resetSetup">Setup zurücksetzen</button>
+            <button class="btn" id="resetStyle">Styling zurücksetzen</button>
+            <h2 class="new-header">Hintergrundbild</h2>
+            <input type="url" name="bgurl" id="bgurl" class="urlinput" placeholder="Hintergrundbild-Link">
+            <button class="btn" id="setBG">Bild setzen</button>
+            <button class="btn" id="resetBG">Bild löschen</button>
         </div>
         <div>
-            <h1>Farben</h1>
+            <h2 class="new-header">Farben</h2>
             <div id="colors"></div>
         </div>
     </div>

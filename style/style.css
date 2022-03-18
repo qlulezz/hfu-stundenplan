@@ -18,11 +18,13 @@
     --clr-12dp: hsl(0, 0%, 20%);
     --clr-16dp: hsl(0, 0%, 21%);
     --clr-24dp: hsl(0, 0%, 22%);
-    --clr-bg-transparent: hsla(0, 0%, 12%, 90%);
+    --clr-bg-transparent: hsla(0, 0%, 7%, 60%);
     --clr-bg-transparent2: rgba(0, 0, 0, 0.2);
+
+    --bg-url: url();
 }
 
-/* CSS Boilerplate https://www.joshwcomeau.com/css/custom-css-reset/*/ 
+/* CSS Boilerplate https://www.joshwcomeau.com/css/custom-css-reset/ */ 
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -62,7 +64,11 @@ p, h1, h2, h3, h4, h5, h6 {
 
 body {
     color: var(--clr-fg);
-    background-color: var(--clr-bg);
+    background: var(--bg-url), var(--clr-bg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
     font-family: 'Noto Sans', sans-serif;
 }
 
@@ -75,10 +81,14 @@ a:hover {
     text-decoration: underline;
 }
 
-#setup {
+.container {
     width: 1280px;
-    border-radius: 20px;
     box-shadow: 0 0 10px black;
+    background-color: var(--clr-bg-transparent);
+    border-radius: 20px;
+}
+
+#setup {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -150,8 +160,6 @@ table {
     width: 1280px;
     border-collapse: collapse;
     border-style: hidden;
-    border-radius: 20px;
-    box-shadow: 0 0 10px black;
 }
 
 th, td {
@@ -273,23 +281,21 @@ tr {
 }
 
 #about-section, #settings {
-    width: 1200px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px black;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 60% 40%;
+    padding: 2rem 3rem;
 }
 
 #about-section p {
     margin: 2ch 0;
 }
 
-#about-section div, #settings > div {
-    margin: 2rem 3rem;
+#about-section > :first-child, #settings > :first-child {
+    margin-right: 3rem;
 }
 
 #about-section img {
@@ -311,6 +317,10 @@ tr {
 
 #settings .urlinput {
     width: 100%;
+    margin-bottom: 1rem;
+}
+
+#settings .new-header {
     margin: 1rem 0;
 }
 
@@ -355,6 +365,23 @@ input[type="color"]::-webkit-color-swatch {
     animation: rainbow 3s linear infinite forwards;
 }
 
+#indicator {
+    height: 2px;
+    background-color: white;
+    width: 100%;
+}
+
+#changelog {
+    display: inline-block;
+    width: 100%;
+    height: 200px;
+    overflow-y: scroll;
+}
+
+#changelog li {
+    margin-bottom: 10px;
+}
+
 @keyframes rainbow {
     from {
         filter: hue-rotate(0deg);
@@ -364,13 +391,16 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 @media (max-width: 680px) {
+    .container {
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
     #setup {
-        width: 90%;
+        width: 100%;
         position: relative;
-        margin-top: 10rem;
         grid-template-columns: 100%;
-        grid-template-rows: 50% 50%;
-        gap: 1.5rem;
+        grid-template-rows: 100%;
         height: fit-content;
     }
     
@@ -387,21 +417,24 @@ input[type="color"]::-webkit-color-swatch {
         display: none;
     }
 
-    #about-section {
+    #about-section, #settings {
         width: 100%;
         position: relative;
-        margin-top: 20rem;
+        top: 0;
+        transform: translateX(-50%);
         grid-template-columns: 100%;
-        grid-template-rows: 50% 50%;
-        overflow: hidden;
-        height: fit-content;
+        padding: 3rem 1rem 1rem 1rem;
     }
 
-    #about-section div {
-        margin: 2rem 2rem;
-    }
-
-    #about-section #last img {
+    #about-section #last {
         display: none;
+    }
+
+    .btn {
+        margin-bottom: 1rem;
+    }
+
+    #about-section > :first-child {
+        margin: 0;
     }
 }
