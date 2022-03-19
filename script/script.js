@@ -71,7 +71,7 @@ function showCurrentTime() {
     let d = new Date();
     let timeSlot = Math.round((d.getHours() * 4 + d.getMinutes() / 15) - 27);
     let addMinutes = Math.round((d.getMinutes() % 15) / 20);
-    if (timeSlot <= 56 && timeSlot >= 1) {
+    if (timeSlot <= 56 && timeSlot >= 1 && d.getDay() != 6 && d.getDay() != 0 ) {
         grid.innerHTML += `<div id="indicator" class="${weekday[d.getDay()]}" style="grid-row-start: ${timeSlot}; grid-row-end: ${timeSlot}; margin-top: ${addMinutes}px;"></div>`;
     }
 }
