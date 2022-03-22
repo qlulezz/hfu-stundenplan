@@ -117,7 +117,7 @@ async function getData(_url) {
 
     // Set Header
     studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2];
-    if (studiengang.length > 8) {
+    if (studiengang.length > 20) {
         studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 3];
     }
     document.getElementById("header").innerHTML = `Stundenplan - ${studiengang}`;
