@@ -13,18 +13,14 @@ Bug Reports, Feature Requests, Feedback: immer her damit!
 ## Features
 - Laden der Daten über ICal
 - Einfaches Klicken durch vergangene und kommende Wochen
-- Individuell einstellbare Farben
+- Individuell einstellbare Farben und Hintergrund
 - Speichern der Konfiguration im LocalStorage
+- Indikator, der das aktuelle Modul zeigt
 - Direkte Links zu Alfaview Räumen
-- Schnelles Laden aufgrund wenig Code und eigener API
+- Schnelles Laden aufgrund eigener API 
 - Erfassung von Feiertagen
 
-## Geplante Features:
-- Optimieren für Mobile
-- Gleichzeitig laufende Veranstaltungen zeigen
-- Mehrere Studiengänge im gleichen Stundenplan
-
-Weitere Ideen oder Wünsche können mir auch direkt per Discord ([qlulezz#2946](https://discordapp.com/users/263272950700965888/)) mitgeteilt werden.
+Ideen oder Wünsche können mir auch direkt per Discord ([qlulezz#2946](https://discordapp.com/users/263272950700965888/)) mitgeteilt werden.
 
 ## How It Works:
 <img src="./img/HowItWorks.svg" width="450" >
