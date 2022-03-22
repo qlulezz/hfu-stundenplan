@@ -71,7 +71,7 @@ function showCurrentTime() {
     let d = new Date();
     let timeSlot = Math.round((d.getHours() * 4 + d.getMinutes() / 15) - 27);
     let addMinutes = Math.round((d.getMinutes() % 15) / 20);
-    if (timeSlot <= 56 && timeSlot >= 1 && d.getDay() != 6 && d.getDay() != 0 ) {
+    if (timeSlot <= 56 && timeSlot >= 1 && d.getDay() != 6 && d.getDay() != 0) {
         grid.innerHTML += `<div id="indicator" class="${weekday[d.getDay()]}" style="grid-row-start: ${timeSlot}; grid-row-end: ${timeSlot}; margin-top: ${addMinutes}px;"></div>`;
     }
 }
@@ -116,9 +116,9 @@ async function getData(_url) {
     holidays = await (await fetch(apiUrl + encodedURLHolidays)).json();
 
     // Set Header
-    studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2];
+    studiengang = data[data.length - 1].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2];
     if (studiengang.length > 20) {
-        studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 3];
+        studiengang = data[data.length - 1].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 3];
     }
     document.getElementById("header").innerHTML = `Stundenplan - ${studiengang}`;
 }
@@ -162,6 +162,14 @@ function buildHTML(type, content) {
             let start = (content.start.getHours() * 4 + content.start.getMinutes() / 15) - 31;
             let end = start + length;
 
+            // Check if day is on saturday or sunday
+            let day = weekday[content.start.getDay()];
+            if (day == "saturday" || day == "sunday") {
+                break;
+            }
+
+            console.log(weekday[content.start.getDay()])
+
             let dateStart = formatDate(content.start).split(", ");
             let dateEnd = formatDate(content.end).split(", ");
             let time = `${dateStart[1]} - ${dateEnd[1]}`
@@ -188,7 +196,7 @@ function buildHTML(type, content) {
 
             // Funfact: If you write React-like code, you eventually need to actually use it
             grid.innerHTML += `
-            <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor};)">
+            <div class="grid-item ${day}" style="grid-row-start: ${Math.round(start)}; grid-row-end: ${Math.round(end)}; background: ${backgroundColor};)">
                 <div class="datetime">
                     <p class="big">${date}, ${time}</p>
                     <p class="big loc">${getRoom(loc)}</p>
@@ -205,6 +213,12 @@ function buildHTML(type, content) {
             let date = `${dateStart[0]}`
             let name = content.sum;
 
+            // Check if day is on saturday or sunday
+            let day = weekday[content.start.getDay()];
+            if (day == "saturday" || day == "sunday") {
+                break;
+            }
+
             let backgroundColor = "";
             for (var i = 0; i < colorArr.length; i++) {
                 if (colorArr[i].course == "Ferientage") {
@@ -214,7 +228,7 @@ function buildHTML(type, content) {
             }
 
             grid.innerHTML += `
-            <div class="grid-item ${weekday[content.start.getDay()]}" style="grid-row-start: 1; grid-row-end: 57; background: ${backgroundColor};)">
+            <div class="grid-item ${day}" style="grid-row-start: 1; grid-row-end: 57; background: ${backgroundColor};)">
                 <div class="datetime"><p class="big">${date}</p></div>
                 <div class="line"></div>
                 <p>${name}</p>
