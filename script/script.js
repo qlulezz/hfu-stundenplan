@@ -117,7 +117,7 @@ async function getData(_url) {
 
     // Set Header
     studiengang = data[data.length - 1].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2];
-    if (studiengang.length > 20) {
+    if (studiengang.length > 20 || studiengang == "") {
         studiengang = data[data.length - 1].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 3];
     }
     document.getElementById("header").innerHTML = `Stundenplan - ${studiengang}`;
@@ -167,8 +167,6 @@ function buildHTML(type, content) {
             if (day == "saturday" || day == "sunday") {
                 break;
             }
-
-            console.log(weekday[content.start.getDay()])
 
             let dateStart = formatDate(content.start).split(", ");
             let dateEnd = formatDate(content.end).split(", ");
