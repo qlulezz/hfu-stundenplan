@@ -28,7 +28,7 @@ let data;
 let holidays;
 
 if (localStorage.getItem("ical-link")) {
-    console.log("ICal found:", localStorage.getItem("ical-link"));
+    console.log("ICal gefunden:", localStorage.getItem("ical-link"));
     setup(true);
 }
 
@@ -115,14 +115,26 @@ async function getData(_url) {
     let encodedURLHolidays = encodeURIComponent(holidaysUrl);
     holidays = await (await fetch(apiUrl + encodedURLHolidays)).json();
 
-    // Set Header
-    studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 2];
-    if (studiengang.length > 20) {
-        studiengang = data[data.length - 1].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 3];
+    // New method of getting Studiengang: Search for most occurring entry
+    let HeaderList = [];
+    let count = {};
+
+    for (let i = 0; i < data.length; i++) {
+        let options = data[i].DESCRIPTION.split("\\n");
+        HeaderList.push(options[options.length - 2]);
     }
-    if (studiengang == "") {
-        studiengang = data[0].DESCRIPTION.split("\\n")[data[0].DESCRIPTION.split("\\n").length - 3];
+
+    // Source: https://bobbyhadz.com/blog/javascript-count-occurrences-of-each-element-in-array
+    for (const entry of HeaderList) {
+        count[entry] ? count[entry] += 1 : count[entry] = 1;
     }
+
+    let sortedCount = Object.keys(count).sort(function (a, b) { return count[b] - count[a] });
+    studiengang = sortedCount[0];
+    
+    console.log("Studiengang basierend auf Anzahl der Einträge erraten:", count);
+
+    // Set Studiengang as header
     document.getElementById("header").innerHTML = `Stundenplan - ${studiengang}`;
 }
 
