@@ -374,7 +374,8 @@ input[type="color"]::-webkit-color-swatch {
 #indicator {
     height: 2px;
     background-color: white;
-    width: 100%;
+    width: 239.25px;
+    position: absolute;
 }
 
 #changelog {
