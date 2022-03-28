@@ -175,7 +175,7 @@ function buildHTML(type, content) {
             let diff = content.end - content.start;
             let length = diff / 900000;
 
-            let start = (content.start.getHours() * 4 + content.start.getMinutes() / 15) - 31;
+            let start = (content.start.getHours() * 4 + content.start.getMinutes() / 15) - 35;
             let end = start + length;
 
             // Check if day is on saturday or sunday
@@ -282,7 +282,7 @@ function getColor() {
 
 // Format Date
 function formatDateIcs(date) {
-    return parseIcsDate(date).addHours(-1).toLocaleDateString("de-DE", {
+    return parseIcsDate(date).addHours(-2).toLocaleDateString("de-DE", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
@@ -292,7 +292,7 @@ function formatDateIcs(date) {
 }
 
 function formatDate(date) {
-    return date.addHours(-1).toLocaleDateString("de-DE", {
+    return date.addHours(-2).toLocaleDateString("de-DE", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
