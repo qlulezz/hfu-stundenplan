@@ -374,8 +374,8 @@ input[type="color"]::-webkit-color-swatch {
 #indicator {
     height: 2px;
     background-color: white;
-    width: 239.25px;
     position: absolute;
+    width: 239.25px;
 }
 
 #changelog {
@@ -387,6 +387,15 @@ input[type="color"]::-webkit-color-swatch {
 
 #changelog li {
     margin-bottom: 10px;
+}
+
+.nohover:hover, .nohover:active, .nohover:focus {
+    -webkit-transform: none;
+    transform: none;
+    z-index: inherit;
+    padding: .3em .7em;
+    overflow: hidden;
+    height: 100%;
 }
 
 @keyframes rainbow {
