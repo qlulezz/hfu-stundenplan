@@ -464,3 +464,27 @@ input[type="color"]::-webkit-color-swatch {
         margin: 0;
     }
 }
+
+@media print {
+    body {
+        background: none;
+    }
+
+    .container {
+        background: none;
+        color: black;
+    }
+
+    .headings {
+        color: black;
+    }
+
+    .rainbow {
+        color: white;
+        animation: none;
+    }
+
+    #indicator {
+        display: none;
+    }
+}
