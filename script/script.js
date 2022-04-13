@@ -1,7 +1,8 @@
+/* eslint-disable no-undef */
 const timings = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
 const weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
-const apiUrl = "https://hfu.qlulezz.de/api/"
+const apiUrl = "https://hfu.qlulezz.de/api/";
 const holidaysUrl = "https://www.schulferien.org/media/ical/deutschland/feiertage_baden-wuerttemberg_2022.ics?k=9DCd6wSzlU7TLWBdfn1DAjGW3gxLX5JMKLZDfjYwAhU5ti70T4yycK3JOXjPDwvhMlnQ9iXmgK7RrlJu4F_7LsEXMxYZjkcs57ftachDPHs";
 
 let setupdiv = document.getElementById("setup");
@@ -47,7 +48,7 @@ function setup(hasLocalStorage) {
     if (!input || input == "" || input.length == 0) {
         return;
     }
-    localStorage.setItem("ical-link", input)
+    localStorage.setItem("ical-link", input);
 
     startProcess(input);
     timetable.style.display = "block";
@@ -59,9 +60,9 @@ async function startProcess(_url) {
     await getData(_url);
     setColors();
 
-    var startWeek = moment().startOf('week').toDate();
-    var endWeek = moment().endOf('week').toDate();
-    dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
+    let startWeek = moment().startOf("week").toDate();
+    let endWeek = moment().endOf("week").toDate();
+    dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`;
 
     buildData(startWeek, endWeek);
 }
@@ -97,13 +98,13 @@ function setColors() {
             colorArr.push({
                 course: course,
                 color: getColor()
-            })
+            });
         }
     }
     colorArr.push({
         course: "Ferientage",
         color: getColor()
-    })
+    });
     localStorage.setItem("colorArr", JSON.stringify(colorArr));
 }
 
@@ -130,12 +131,13 @@ async function getData(_url) {
         count[entry] ? count[entry] += 1 : count[entry] = 1;
     }
 
-    let sortedCount = Object.keys(count).sort(function (a, b) { return count[b] - count[a] });
+    let sortedCount = Object.keys(count).sort(function (a, b) { return count[b] - count[a]; });
     studiengang = sortedCount[0];
-    
-    console.log("Studiengang basierend auf Anzahl der Einträge erraten:", count);
 
-    // Set Studiengang as header
+    console.log("Studiengang basierend auf Anzahl der Einträge erraten:");
+    console.table(count);
+
+    // Set Studiengang as header 
     document.getElementById("header").innerHTML = `Stundenplan - ${studiengang}`;
 }
 
@@ -153,7 +155,7 @@ function buildData(_start, _end) {
             endFormat: formatDateIcs(data[i].DTEND),
             loc: data[i].LOCATION,
             sum: data[i].SUMMARY
-        }
+        };
         buildHTML("entry", output);
     }
     for (let i = 0; i < holidays.length; i++) {
@@ -162,8 +164,8 @@ function buildData(_start, _end) {
         let output = {
             start: parseIcsDate(holidays[i].DTSTART),
             sum: holidays[i].SUMMARY
-        }
-        buildHTML("holiday", output)
+        };
+        buildHTML("holiday", output);
     }
     showCurrentTime();
 }
@@ -186,8 +188,8 @@ function buildHTML(type, content) {
 
             let dateStart = formatDate(content.start).split(", ");
             let dateEnd = formatDate(content.end).split(", ");
-            let time = `${dateStart[1]} - ${dateEnd[1]}`
-            let date = `${dateStart[0].split(".")[0]}.${dateStart[0].split(".")[1]}`
+            let time = `${dateStart[1]} - ${dateEnd[1]}`;
+            let date = `${dateStart[0].split(".")[0]}.${dateStart[0].split(".")[1]}`;
             let course = content.desc.split("\\")[0].split("(")[0].trim();
             let loc = content.loc.replaceAll("\\", "");
 
@@ -197,11 +199,11 @@ function buildHTML(type, content) {
                 if (!item.includes("OMB") && !item.includes(course) && !item.includes(studiengang)) {
                     prof += item + "<br>";
                 }
-            })
-            prof = prof.substring(0, prof.length - 4).replaceAll("\\", "")
+            });
+            prof = prof.substring(0, prof.length - 4).replaceAll("\\", "");
 
             let backgroundColor = "";
-            for (var i = 0; i < colorArr.length; i++) {
+            for (let i = 0; i < colorArr.length; i++) {
                 if (colorArr[i].course == course) {
                     backgroundColor = colorArr[i].color;
                     break;
@@ -224,7 +226,7 @@ function buildHTML(type, content) {
         }
         case ("holiday"): {
             let dateStart = formatDate(content.start).split(", ");
-            let date = `${dateStart[0]}`
+            let date = `${dateStart[0]}`;
             let name = content.sum;
 
             // Check if day is on saturday or sunday
@@ -234,7 +236,7 @@ function buildHTML(type, content) {
             }
 
             let backgroundColor = "";
-            for (var i = 0; i < colorArr.length; i++) {
+            for (let i = 0; i < colorArr.length; i++) {
                 if (colorArr[i].course == "Ferientage") {
                     backgroundColor = colorArr[i].color;
                     break;
@@ -257,17 +259,17 @@ function buildHTML(type, content) {
 let weeks = 0;
 function pageNext() {
     weeks++;
-    let startWeek = moment().startOf('week').toDate().addDays(weeks * 7);
-    let endWeek = moment().endOf('week').toDate().addDays(weeks * 7);
-    dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
+    let startWeek = moment().startOf("week").toDate().addDays(weeks * 7);
+    let endWeek = moment().endOf("week").toDate().addDays(weeks * 7);
+    dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`;
     buildData(startWeek, endWeek);
 }
 
 function pageLast() {
     weeks--;
-    let startWeek = moment().startOf('week').toDate().addDays(weeks * 7);
-    let endWeek = moment().endOf('week').toDate().addDays(weeks * 7);
-    dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`
+    let startWeek = moment().startOf("week").toDate().addDays(weeks * 7);
+    let endWeek = moment().endOf("week").toDate().addDays(weeks * 7);
+    dateSelector.innerHTML = `${formatDate(startWeek).split(", ")[0]} - ${formatDate(endWeek).split(", ")[0]}`;
     buildData(startWeek, endWeek);
 }
 
@@ -276,7 +278,7 @@ function pageLast() {
 // Random HSL for course background color
 function getColor() {
     const hue = Math.floor(Math.random() * 360);
-    const saturation = Math.floor(Math.random() * (100 - 50 + 1) + 50)
+    const saturation = Math.floor(Math.random() * (100 - 50 + 1) + 50);
     return `hsl(${hue},${saturation}%,40%)`;
 }
 
@@ -303,26 +305,26 @@ function formatDate(date) {
 
 function parseIcsDate(icsDate) {
     if (!/^[0-9]{8}T[0-9]{6}$/.test(icsDate)) {
-        var year = icsDate.substr(0, 4);
-        var month = icsDate.substr(4, 2);
-        var day = icsDate.substr(6, 2);
+        let year = icsDate.substr(0, 4);
+        let month = icsDate.substr(4, 2);
+        let day = icsDate.substr(6, 2);
 
         return new Date(Date.UTC(year, month - 1, day));
     }
-    var year = icsDate.substr(0, 4);
-    var month = icsDate.substr(4, 2);
-    var day = icsDate.substr(6, 2);
+    let year = icsDate.substr(0, 4);
+    let month = icsDate.substr(4, 2);
+    let day = icsDate.substr(6, 2);
 
-    var hour = icsDate.substr(9, 2);
-    var minute = icsDate.substr(11, 2);
-    var second = icsDate.substr(13, 2);
+    let hour = icsDate.substr(9, 2);
+    let minute = icsDate.substr(11, 2);
+    let second = icsDate.substr(13, 2);
 
     return new Date(Date.UTC(year, month - 1, day, hour, minute, second));
 }
 
 // Check of date is between two dates
 function dateCheck(from, to, check) {
-    var fDate, lDate, cDate;
+    let fDate, lDate, cDate;
     fDate = Date.parse(from);
     lDate = Date.parse(to);
     cDate = Date.parse(check);
@@ -337,20 +339,20 @@ function dateCheck(from, to, check) {
 Date.prototype.addHours = function (h) {
     this.setTime(this.getTime() + (h * 60 * 60 * 1000));
     return this;
-}
+};
 
 // Add days to date
 Date.prototype.addDays = function (days) {
-    var date = new Date(this.valueOf());
+    let date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
-}
+};
 
 // Get Alfa-View room link by name
 function getRoom(name) {
     if (name.includes("DM")) {
-        let room = "dm" + name.substring(name.indexOf('-') + 1).split(", ")[0];
-        return `<a href="https://rooms.hs-furtwangen.de/rooms/${room}" target="_blank" class="rainbow">${name}</a>`
+        let room = "dm" + name.substring(name.indexOf("-") + 1).split(", ")[0];
+        return `<a href="https://rooms.hs-furtwangen.de/rooms/${room}" target="_blank" class="rainbow">${name}</a>`;
     }
     return name;
 }
